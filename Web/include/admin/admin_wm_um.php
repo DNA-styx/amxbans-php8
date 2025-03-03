@@ -31,23 +31,23 @@ global $config;
 
 //change menu position function
 function menu_change_pos($mid,$pos,$pos_new) {
-	global $config;
-	//"save" menupoint to change to a "temp" position
-	$query = $mysql->query("UPDATE `".$config->db_prefix."_usermenu` SET `pos`=0 WHERE `id`=".$mid." LIMIT 1") or die ($mysql->error);
-	
-	if($pos==$pos_new-1 || $pos==$pos_new+1) {
-		//pos_new one lower or higher (arrows)
-		$query = $mysql->query("UPDATE `".$config->db_prefix."_usermenu` SET `pos`=`pos`".(($pos_new < $pos)?"+":"-")."1 
-			WHERE `pos`=".$pos_new." LIMIT 1") or die ($mysql->error);
-	} else {
-		//pos_new more than one lower or higher (input)
-		$query = $mysql->query("UPDATE `".$config->db_prefix."_usermenu` SET `pos`=`pos`".(($pos_new < $pos)?"+":"-")."1 
-			WHERE `pos`".(($pos_new < $pos)?"<":">").$pos." AND `pos`".(($pos_new < $pos)?">=":"<=").$pos_new) or die ($mysql->error);
-	}
-	//set new position from changed menupoint
-	$query = $mysql->query("UPDATE `".$config->db_prefix."_usermenu` SET `pos`=".$pos_new." WHERE `id`= ".$mid." LIMIT 1") or die ($mysql->error);
-	
-	#log_to_db("Usermenu config","Changed menu: position ".$pos." -> ".$pos_new);
+    global $config, $mysql; // Added $mysql to the global declaration
+    //"save" menupoint to change to a "temp" position
+    $query = $mysql->query("UPDATE `".$config->db_prefix."_usermenu` SET `pos`=0 WHERE `id`=".$mid." LIMIT 1") or die ($mysql->error);
+    
+    if($pos==$pos_new-1 || $pos==$pos_new+1) {
+        //pos_new one lower or higher (arrows)
+        $query = $mysql->query("UPDATE `".$config->db_prefix."_usermenu` SET `pos`=`pos`".(($pos_new < $pos)?"+":"-")."1 
+            WHERE `pos`=".$pos_new." LIMIT 1") or die ($mysql->error);
+    } else {
+        //pos_new more than one lower or higher (input)
+        $query = $mysql->query("UPDATE `".$config->db_prefix."_usermenu` SET `pos`=`pos`".(($pos_new < $pos)?"+":"-")."1 
+            WHERE `pos`".(($pos_new < $pos)?"<":">").$pos." AND `pos`".(($pos_new < $pos)?">=":"<=").$pos_new) or die ($mysql->error);
+    }
+    //set new position from changed menupoint
+    $query = $mysql->query("UPDATE `".$config->db_prefix."_usermenu` SET `pos`=".$pos_new." WHERE `id`= ".$mid." LIMIT 1") or die ($mysql->error);
+    
+    #log_to_db("Usermenu config","Changed menu: position ".$pos." -> ".$pos_new);
 }
 
 $mid = isset($_POST["mid"]) ? (int)$_POST["mid"] : 0;
