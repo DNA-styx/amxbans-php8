@@ -83,8 +83,8 @@ function sql_safe($value) {
 	return $mysql->escape_string($value);
 }
 function html_safe($value) {
-	$value=stripslashes_recursive($value); //function in config.inc.php
-	return htmlentities($value, ENT_QUOTES);
+    $value = stripslashes_recursive($value);
+    return is_string($value) ? htmlentities($value, ENT_QUOTES) : $value;
 }
 
 function _substr($str, $length, $minword = 3) {
