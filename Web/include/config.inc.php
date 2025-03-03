@@ -69,7 +69,10 @@ $page_starttime=explode(" ",microtime());
 
 // If magic quotes are enabled, strip slashes from all user data
 function stripslashes_recursive($var) {
-	return is_array($var) ? array_map('stripslashes_recursive', $var) : stripslashes($var);
+    if (is_array($var)) {
+        return array_map('stripslashes_recursive', $var);
+    }
+    return is_string($var) ? stripslashes($var) : $var;
 }
 $_GET = stripslashes_recursive($_GET);
 $_POST = stripslashes_recursive($_POST);
