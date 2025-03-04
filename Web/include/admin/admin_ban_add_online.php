@@ -132,7 +132,7 @@
 		//get bantime
 		$time = $pl_perm ? 0 : (($pl_ban_length >= 0) ? $pl_ban_length : 0);
 		//get and check the ban type
-		$type = $_POST["ban_type"];
+		$type = sql_safe(trim($_POST["ban_type"]));
 		
 		if( !$steamid_valid && $type == "S" ) $user_msg="_STEAMIDINVALID";
 		if( !$ip_valid && $type == "SI" ) $user_msg="_IPINVALID";
